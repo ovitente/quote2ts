@@ -1,0 +1,24 @@
+#!/bin/bash 
+
+# Run with
+# screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
+source config
+function getquote {
+files_array=$(curl -l ftp://q.rs.net.ua/quotes/ --user hostname:yourpassrod | grep "$EXT")
+  }
+
+function send2ts {
+echo "Replacing logo on TeamSpeak."
+export RDY_IMG="$(echo "$files_array" | sort -R | head -n 1)"
+expect -c '
+		spawn telnet HOSTNAME PORT
+		send "login QUERY_LOGIN SQUERYPASSWORD\r\n"
+		send "use sid=683\r\n"
+		send "serveredit sid=683 virtualserver_hostbanner_gfx_url=http://q.rs.net.ua/quotes/$env(RDY_IMG)\r\n"
+		send "quit\r\n"
+		interact
+'
+  }
+
+getquote
+send2ts

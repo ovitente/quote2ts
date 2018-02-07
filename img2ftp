@@ -1,0 +1,63 @@
+#!/bin/bash 
+
+source config
+
+DATE=`/bin/date '+%Y.%m.%d'`
+FTP="FTP_SERVER" 
+USR="FTP_USER" 
+PASS="YOUR_FTP_PASS" 
+FTP_DIR=~/ftp
+
+echo "$YLWB* FTP$NRML"
+
+echo "$GRNB*$NRML Проверка записи в /etc/mtab"
+if [[ $FTP_DIR = $(grep -o $FTP_DIR /etc/mtab) ]]; then
+				echo -e "$REDB*$NRML Запись $FTP_DIR есть в mtab\nОтмонтирование.";
+				fusermount -u $FTP_DIR;
+else
+				echo "$GRNB*$NRML Записи $FTP_DIR нет в mtab, все в порядке";
+fi
+
+echo "$GRNB*$NRML Проверка наличия директории для монтированя."
+if [[ -d $FTP_DIR || -f $FTP_DIR ]]; then
+				echo -e "$GRNB*$NRML Директория $FTP_DIR существует.";
+				#rm -rf $FTP_DIR; 
+elif [ ! -d $FTP_DIR ]; then
+				echo -e "$GRNB*$NRML Директория $FTP_DIR не существует..." $GRNB"Создание."$NRML;
+				mkdir $FTP_DIR;
+fi
+
+sleep 1
+echo "$GRNB*$NRML Получение доступа к ftp"
+echo "$GRNB*$NRML Проверка папки на запись"
+if [ -w $FTP_DIR ]; then
+				curlftpfs -o iocharset=UTF-8 ftp://$USR:$PASS@$FTP/ $FTP_DIR;
+				echo "$GRNB*$NRML Поиск и удаление предыдущих изображений.";
+				find $FTP_DIR -type f -iname "*[0-9].png" | xargs rm -rf; 
+else
+				echo "$REDB*$NRML $FTP_DIR недоступна для записи.";
+				echo $REDB" * * * Аварийное завершение * * * "$NRML
+				exit 1
+fi
+
+echo "$GRNB*$NRML Копирование $RDY_IMG в $FTP_DIR"
+
+#cd ~/x7/projects/teamspeak/quotes2logo
+cp -f $RDY_IMG $FTP_DIR
+
+sleep 1
+
+echo "$GRNB*$NRML Проверка наличия файлов на сервере."
+
+if [ -f $FTP_DIR/$RDY_IMG ]; then
+				echo -e "$GRNB*$NRML Файл $RDY_IMG существует в $FTP_DIR\n$GRNB*$NRML Отмонтирование ftp."
+				fusermount -u $FTP_DIR
+				sleep 1
+				echo "$GRNB*$NRML Удаление папки $FTP_DIR"
+				if [[ -d $FTP_DIR || -f $FTP_DIR ]]; then rm -rf $FTP_DIR; fi
+				exit 0
+else
+				echo -e "$REDB*$NRML Файла $RDY_IMG нет в $FTP_DIR\nИщи коряку\n$GRNB*$NRML Отмонтирование." >&2
+				fusermount -u $FTP_DIR
+				exit 1
+fi

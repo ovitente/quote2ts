@@ -1,0 +1,31 @@
+Известные проблемы:
+
+1. Если файл с другим циферным именем и другой датой уже существует - то текущая реализация не удаляет его с фтп.
+Вариант разруливания: find . -type f -iname "[0-9]*.png" | ls -t [0-9]* | head -1
+Он находит все файлы по паттерну и находит самый новый, а надо что бы находило СТАРЕЕ САМОГО НОВОГО, и удаляло их
+
+2. После апдейта
+
+Upgraded:
+    imagemagick-common:all 8:6.7.7.10-6ubuntu3 => 8:6.7.7.10-6ubuntu3.1
+    imagemagick:amd64 8:6.7.7.10-6ubuntu3 => 8:6.7.7.10-6ubuntu3.1
+    libmagickcore5-extra:amd64 8:6.7.7.10-6ubuntu3 => 8:6.7.7.10-6ubuntu3.1
+    libmagickcore5:amd64 8:6.7.7.10-6ubuntu3 => 8:6.7.7.10-6ubuntu3.1
+    libmagickwand5:amd64 8:6.7.7.10-6ubuntu3 => 8:6.7.7.10-6ubuntu3.1
+    libnl-3-200:amd64 3.2.21-1ubuntu1.1 => 3.2.21-1ubuntu3
+    libnl-genl-3-200:amd64 3.2.21-1ubuntu1.1 => 3.2.21-1ubuntu3
+    libnl-route-3-200:amd64 3.2.21-1ubuntu1.1 => 3.2.21-1ubuntu3
+
+Перестало конвертировать текст.
+
+РЕШЕНИЕ:
+aptitude install imagemagick:amd64=8:6.7.7.10-6ubuntu3
+Со знаком равно! и все гут.
+На будущее что бы не обновлялись - залочил пакет через
+apt-mark hold imagemagick
+
+ИЛИ же закомментировать строчку
+<policy domain="path" rights="none" pattern="@*" />
+в файле /etc/ImageMagick-6/policy.xml
+
+ТО ЖЕ САМОЕ если не генерится файл картинки молча, без вывода.

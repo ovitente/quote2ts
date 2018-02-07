@@ -1,0 +1,14 @@
+#!/bin/bash
+source config
+echo "Replacing logo on TeamSpeak."
+export RDY_IMG="`ls -t [0-9]* | head -1`" # 
+expect -c '
+		spawn telnet allatra.ruvoice.com 10022    
+		send "login YOUR_SERVER_QUERY_LOGIN YOUR_SERVER_QUERY_PASSWORD\r\n"
+		send "use sid=383\r\n"
+		send "serveredit sid=383 virtualserver_hostbanner_gfx_url=http://YOUR_REMOTE_SERVER_HERE/$env(RDY_IMG)\r\n"
+		send "quit\r\n"
+		interact
+'
+
+# use sid - указывает ID сервера

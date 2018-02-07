@@ -1,0 +1,55 @@
+# Config for every value of the script
+
+REPEAT_TIMER=180 # Промежуток запуска ( в секундах ) скрипта на исполнение. Подробности ищи в файле cycler
+
+# Шрифты и длинна строк
+#FONT=CooperMediumC-BT-Regular
+#FONT=Izhitsa-Regular
+CHARS=0 # Обнуляю проверку на кол-во символов в цитате
+FONT=CooperMediumCBT
+FONTSIZE=20
+QUOTE_LENGTH=600
+SIGNFONT=$FONT
+SIGN_FONT_SIZE=14
+SIGN_LENGTH=500
+
+# Переменные под имена файлов
+
+EXT=".png"
+LOGO=logo$EXT
+PRE_RDY_IMG=rdy.png
+QUOTES_SOURCE=quotes_list
+RDY_DIR=./generated
+RDY_LOGO=rdy_logo.png
+SIGN_IMG=signature.png
+TEXT_IMG=quote.png
+TMPLT_LOGO=template.png
+
+# Лимиты на кол-во знаков для условий. 
+L0=170
+L1=200
+L2=300
+L3=400
+L4=520
+L5=600
+L6=700
+
+F0=22
+F1=18
+F2=17
+F3=15
+F4=14
+F5=13
+F6=12
+
+REDB=$(tput setaf 1)$(tput bold)
+GRNB=$(tput setaf 2)$(tput bold)
+YLWB=$(tput setaf 3)$(tput bold)
+BLB=$(tput setaf 4)$(tput bold)
+BOLD=$(tput bold)
+NRML=$(tput sgr0)
+grn_a="${GRNB}*${NRML}"
+red_a="${REDB}*${NRML}"
+bl_a="${BLB}*${NRML}"
+ok="$GRNB""[ OK ]""$NRML"
+fail="$REDB""[ FAIL] ""$NRML"

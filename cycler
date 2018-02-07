@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Команда цикличного запуска скрипта
+#
+source config
+watch -n $REPEAT_TIMER "bash quote2ts"

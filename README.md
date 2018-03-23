@@ -1,40 +1,26 @@
 ## Quote2TS script for TeamSpeak 3 Server.
 
-#### Это старая версия, но пока еще поддерживающаяся. Новая переписывается на Python3 и доступна как [logogen](https://github.com/ovitente/logogen)
+**This version is almost deprecated. The new one is called [logogen](https://github.com/ovitente/logogen) but it is under construction.**
 
-Набор скриптов, которые позволяют из текста, и шаблона картинки сгенерировать логотип. В данном случае для teamspeak.
+### It is a set of 2 scripts, that generates Hostbanner for TeamSpeak 3. Like this
 
-Весь функционал написан на баше, с использованием утилит imagemagic,watch,telnet. Все они есть в репозиториях последней убунты.
-Файлы и их описание:
+![qote](http://q.rs.net.ua/quotes/q15.png)
 
-* quote2ts - Основной скрипт, где описан весь "движок", и прокомментирован принцип генерации цитат из файла.
-* config - как понятно из названия, в нем хранятся все значения переменных, которые используются в скриптах.
-* ts_rotate - скрипт для ротации сгенерированных цитат, информативных лого и лого с передачами АллатРа ТВ одновременно добавляя ссылку на передачу.
-* quotes_list - база цитат.
- 
-## Необходимые программы
-* imagemagic
-* watch
+Files  | Description
+------------ | -------------
+quote2ts | Main logo-generator script.
+config | Config file, with values of variables for more convenient use.
+quotes_list | Plain-text quotes database.
+ts_rotate | Second big script, that handles logo rotation with a simple but not obvious algorithm.
+
+## Dependencies
+* imagemagick
 * telnet
 * expect
-## Принцип работы:
-Из пачки цитат рандомно выбирается одна, парсится и обрабатывается, генерятся картинки из текста,
- совмещаются с шаблоном и логотипом (подгоняясь по длинне цитаты и т.п.) и складываются в директорию внутри проекта. На этом этапе цитаты готовы и могут использоваться где угодно.
- Далее можно загрузить их на ftp.
- Запустить `ts_rotate` для циклического показа лого, вместе с подставлеными под них ссылками, в тимспике.
 
-## Чуть подробнее:
-Из файла с цитатами берется случайная строчка и записывается в файл.
-Проверяет кол-во символов в строке и выбирает подходящий размер шрифта.
-Подпись отделяется переносом на новую строку.
-Вырезает и выводит подпись в отдельный файл.
-Парсит и чистит цитату и подпись.
-Генерирует изображение текста подписи.
-Генерирует изображение текста цитаты
-Накладывает красную волну и шаблон логотипа
-Накладывает картинку текста на лого (уже с волной)
-Накладывает картинку подписи на лого
-Склеивает готовый логотип и фото
-Обрисовывает вокруг всего черную рамку в 1 пиксель (на сейчас)
-Всё.
-Потом можно (предварительно заполнив файл с кредами что создастся при первом запуске ts_rotate) - циклически прокручивать логотипы на своём тимспик сервере.
+## Working principle
+Script quote2ts takes one randomly chosen quote string, it is passing thru quote symbols counting control.  
+Then it has to be parsed and divided to the main quote-body and signature.  
+Imagemagick is creating picture from text, working on positioning it to template, and saving it to `generated` directory.
+
+Then you can upload images to your ftp, and, using ts_rotate script set logo to your TeamSpeak 3 virtual server.

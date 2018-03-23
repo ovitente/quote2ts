@@ -4,7 +4,7 @@
 
 ### It is a set of 2 scripts, that generates Hostbanner for TeamSpeak 3. Like this
 
-![qote](http://q.rs.net.ua/quotes/q15.png)
+![image](https://user-images.githubusercontent.com/10868371/37829546-114fb268-2ea8-11e8-8ac9-6d3ac35f2d4e.png)
 
 Files  | Description
 ------------ | -------------

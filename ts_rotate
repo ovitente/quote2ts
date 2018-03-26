@@ -2,7 +2,7 @@
 clear
 # Run with
 # screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
-source config
+#source config
 
 CREDENTIALS_FILE="creds.cfg"
 export VIDEO_NAME=""
@@ -26,6 +26,7 @@ it-is-coming
 invisible-world
 suicide-fate-afterdeath
 remote-kill-dead-resurrecting
+sekty
 "
 
 INFO_LIST="gitted
@@ -114,6 +115,9 @@ function VideoChose {
             ;;
         remote-kill-dead-resurrecting)
             CHOSEN_VIDEO_LINK="https://youtu.be/abl0IrX0h38"
+            ;;
+        sekty)
+            CHOSEN_VIDEO_LINK="https://youtu.be/vh-6_num5YA"
             ;;
         *)
             GetVideoName 

@@ -10,7 +10,7 @@ export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
 export INFO_LINK="https://github.com/ovitente/quote2ts"
 
-TS_MANUAL="https://goo.gl/nBwL7j"
+TS_MANUAL="https://goo.gl/smxuVW"
 
 VIDEOS_LIST="
 illuzion-and-path
@@ -31,7 +31,8 @@ sekty
 
 INFO_LIST="gitted
 clickable
-channel_deletion"
+channel_deletion
+admin-info"
 
 function GetCredentials {
     if [ -e $CREDENTIALS_FILE ]; then
@@ -161,8 +162,6 @@ function ProjectNameToLogo {
 
 function AdminInfo {
     echo "Show info about admin."
-    export ADMIN_INFO="admin-info.png"
-    export ADMIN_INFO_LINK="https://t.me/ivan_kostrubin"
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
@@ -175,6 +174,8 @@ function AdminInfo {
 
 function TeamSpeakInfo {
     echo "Shows some ts notices."
+    export ADMIN_INFO="admin-info.png"
+    export ADMIN_INFO_LINK="https://t.me/ivan_kostrubin"
 
     export INFO_NAME="$(echo "$INFO_LIST" | sort -R | head -n 1)"
 
@@ -191,7 +192,9 @@ function TeamSpeakInfo {
         channel_deletion)
             INFO_LINK=$TS_MANUAL
             ;;
-    esac
+        admin-info)
+            INFO_LINK=$ADMIN_INFO_LINK
+            ;;
     esac
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
@@ -205,7 +208,7 @@ function TeamSpeakInfo {
 
 function init {
     min=1
-    max=4
+    max=3
 
     rand="$(( $min + RANDOM % $max ))"
     case $rand in
@@ -217,10 +220,10 @@ function init {
             VideoChose
             VideosToLogo
             ;;
+#        3)
+#            AdminInfo
+#            ;;
         3)
-            AdminInfo
-            ;;
-        4)
             TeamSpeakInfo
             ;;
     esac

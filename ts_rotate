@@ -220,9 +220,6 @@ function init {
             VideoChose
             VideosToLogo
             ;;
-#        3)
-#            AdminInfo
-#            ;;
         3)
             TeamSpeakInfo
             ;;

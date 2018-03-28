@@ -30,7 +30,8 @@ sekty
 "
 
 INFO_LIST="gitted
-clickable"
+clickable
+channel_deletion"
 
 function GetCredentials {
     if [ -e $CREDENTIALS_FILE ]; then
@@ -187,6 +188,10 @@ function TeamSpeakInfo {
         clickable)
             INFO_LINK=$TS_MANUAL
             ;;
+        channel_deletion)
+            INFO_LINK=$TS_MANUAL
+            ;;
+    esac
     esac
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)

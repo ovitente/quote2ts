@@ -28,6 +28,7 @@ invisible-world
 suicide-fate-afterdeath
 remote-kill-dead-resurrecting
 sekty
+soznanie-instrument-diavola
 "
 
 INFO_LIST="gitted
@@ -122,6 +123,9 @@ function VideoChose {
             ;;
         sekty)
             CHOSEN_VIDEO_LINK="https://youtu.be/vh-6_num5YA"
+            ;;
+        soznanie-instrument-diavola)
+            CHOSEN_VIDEO_LINK="https://youtu.be/iO01oBFbFkA"
             ;;
         *)
             GetVideoName 

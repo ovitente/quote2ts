@@ -2,16 +2,17 @@
 clear
 # Run with
 # screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
-#source config
 
-CREDENTIALS_FILE="creds.cfg"
+export Q_PROJECT_DIR="/home/det/x7/projects/teamspeak/quote2ts"
+cd $Q_PROJECT_DIR
+CREDENTIALS_FILE="$Q_PROJECT_DIR/creds.cfg"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
 export INFO_LINK="https://github.com/ovitente/quote2ts"
 
 TS_MANUAL="https://goo.gl/smxuVW"
-
+VIDEO_NAME=""
 VIDEOS_LIST="
 illuzion-and-path
 cataclisms
@@ -33,6 +34,7 @@ INFO_LIST="gitted
 clickable
 channel_deletion
 admin-info"
+
 
 function GetCredentials {
     if [ -e $CREDENTIALS_FILE ]; then

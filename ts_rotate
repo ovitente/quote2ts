@@ -33,6 +33,7 @@ soznanie-instrument-diavola
 avtoritety
 o-dukhovnoy-blagodati
 afera-s-redoxom
+allatra-science
 "
 
 INFO_LIST="gitted
@@ -144,6 +145,9 @@ function VideoChose {
         o-dukhovnoy-blagodati)
             CHOSEN_VIDEO_LINK="https://youtu.be/vCtEQ-YwJiA"
             ;;
+        allatra-science)
+            CHOSEN_VIDEO_LINK="https://allatra.tv/category/peredachi-allatra-nauka"
+            ;;            
         *)
             GetVideoName 
             VideoChose

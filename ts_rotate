@@ -31,6 +31,7 @@ astral
 sekty
 soznanie-instrument-diavola
 o-dukhovnoy-blagodati
+afera-s-redoxom
 "
 
 INFO_LIST="gitted
@@ -133,6 +134,9 @@ function VideoChose {
         soznanie-instrument-diavola)
             CHOSEN_VIDEO_LINK="https://youtu.be/iO01oBFbFkA"
             ;;
+        afera-s-redoxom)
+            CHOSEN_VIDEO_LINK="https://allatra.tv/video/otec-sergij-afera-s-redoksom"
+            ;;            
         o-dukhovnoy-blagodati)
             CHOSEN_VIDEO_LINK="https://youtu.be/vCtEQ-YwJiA"
             ;;

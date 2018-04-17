@@ -29,6 +29,7 @@ suicide-fate-afterdeath
 remote-kill-dead-resurrecting
 sekty
 soznanie-instrument-diavola
+o-dukhovnoy-blagodati
 "
 
 INFO_LIST="gitted
@@ -126,6 +127,9 @@ function VideoChose {
             ;;
         soznanie-instrument-diavola)
             CHOSEN_VIDEO_LINK="https://youtu.be/iO01oBFbFkA"
+            ;;
+        o-dukhovnoy-blagodati)
+            CHOSEN_VIDEO_LINK="https://youtu.be/vCtEQ-YwJiA"
             ;;
         *)
             GetVideoName 

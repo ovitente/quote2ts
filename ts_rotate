@@ -27,6 +27,7 @@ it-is-coming
 invisible-world
 suicide-fate-afterdeath
 remote-kill-dead-resurrecting
+astral
 sekty
 soznanie-instrument-diavola
 o-dukhovnoy-blagodati
@@ -125,6 +126,10 @@ function VideoChose {
         sekty)
             CHOSEN_VIDEO_LINK="https://youtu.be/vh-6_num5YA"
             ;;
+        astral)
+            CHOSEN_VIDEO_LINK="https://youtu.be/PS-bIc6xb70"
+            ;;
+
         soznanie-instrument-diavola)
             CHOSEN_VIDEO_LINK="https://youtu.be/iO01oBFbFkA"
             ;;

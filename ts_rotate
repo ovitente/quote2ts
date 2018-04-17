@@ -30,6 +30,7 @@ remote-kill-dead-resurrecting
 astral
 sekty
 soznanie-instrument-diavola
+avtoritety
 o-dukhovnoy-blagodati
 afera-s-redoxom
 "
@@ -133,6 +134,9 @@ function VideoChose {
 
         soznanie-instrument-diavola)
             CHOSEN_VIDEO_LINK="https://youtu.be/iO01oBFbFkA"
+            ;;
+        avtoritety)
+            CHOSEN_VIDEO_LINK="https://allatra.tv/video/tajnye-gruppy-i-gubitelnost-avtoritetov"
             ;;
         afera-s-redoxom)
             CHOSEN_VIDEO_LINK="https://allatra.tv/video/otec-sergij-afera-s-redoksom"

@@ -260,5 +260,4 @@ function init {
 ### START SCRIPT ###
 
 GetCredentials
-TeamSpeakInfo
-#init 
+init 

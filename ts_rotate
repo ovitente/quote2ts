@@ -224,7 +224,7 @@ function TeamSpeakInfo {
             INFO_LINK=$ADMIN_INFO_LINK
             ;;
         znaki)
-            INFO_LINK="https://allatra.tv/znaki"
+            INFO_LINK="https://youtu.be/gN2CAK5k9C4"
             ;;    
     esac
     expect -c '

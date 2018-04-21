@@ -32,7 +32,6 @@ sekty
 soznanie-instrument-diavola
 avtoritety
 o-dukhovnoy-blagodati
-afera-s-redoxom
 allatra-science
 "
 
@@ -140,9 +139,6 @@ function VideoChose {
         avtoritety)
             CHOSEN_VIDEO_LINK="https://allatra.tv/video/tajnye-gruppy-i-gubitelnost-avtoritetov"
             ;;
-        afera-s-redoxom)
-            CHOSEN_VIDEO_LINK="https://allatra.tv/video/otec-sergij-afera-s-redoksom"
-            ;;            
         o-dukhovnoy-blagodati)
             CHOSEN_VIDEO_LINK="https://youtu.be/vCtEQ-YwJiA"
             ;;

@@ -3,7 +3,7 @@ clear
 # Run with
 # screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
 
-export Q_PROJECT_DIR="/home/det/x7/projects/teamspeak/quote2ts"
+export Q_PROJECT_DIR="/quote2ts"
 cd $Q_PROJECT_DIR
 CREDENTIALS_FILE="$Q_PROJECT_DIR/creds.cfg"
 export VIDEO_NAME=""
@@ -157,7 +157,7 @@ function VideoChose {
 
 function VideosToLogo {
     echo "Video rotating"
-    if $VIDEO_NAME -z; then
+    if $VIDEO_NAME -z 2> /dev/null; then
         GetQuote
     fi
     expect -c '

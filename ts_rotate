@@ -3,7 +3,7 @@ clear
 # Run with
 # screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
 
-export Q_PROJECT_DIR="/quote2ts"
+export Q_PROJECT_DIR="/home/det/x7/projects/teamspeak/quote2ts"
 cd $Q_PROJECT_DIR
 CREDENTIALS_FILE="$Q_PROJECT_DIR/creds.cfg"
 export VIDEO_NAME=""
@@ -256,4 +256,4 @@ function init {
 ### START SCRIPT ###
 
 GetCredentials
-init 
+init > /dev/null

@@ -3,7 +3,7 @@ clear
 
 export Q_PROJECT_DIR="$(pwd)"
 cd $Q_PROJECT_DIR
-CREDENTIALS_FILE="creds.cfg"
+CREDENTIALS_FILE="quote2ts/creds.cfg"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""

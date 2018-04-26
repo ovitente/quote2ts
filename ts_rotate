@@ -77,7 +77,6 @@ function QuoteToLogo {
 '
   }
 
-
 function GetVideoName {
     export VIDEO_NAME="$(echo "$VIDEOS_LIST" | sort -R | head -n 1)"
 }
@@ -200,12 +199,8 @@ function TeamSpeakInfo {
     echo "Shows some ts notices."
     export ADMIN_INFO="admin-info.png"
     export ADMIN_INFO_LINK="https://t.me/ivan_kostrubin"
-
     export INFO_NAME="$(echo "$INFO_LIST" | sort -R | head -n 1)"
 
-#     while [ $INFO_NAME -z ]; do
-#         INFO_NAME="$(echo "$INFO_LIST" | sort -R | head -n 1)"
-#     done
     case $INFO_NAME in
         gitted)
             INFO_LINK="https://github.com/ovitente/quote2ts"

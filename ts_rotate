@@ -1,11 +1,9 @@
 #!/bin/bash 
 clear
-# Run with
-# screen watch -n180 "bash ~/x7/projects/teamspeak/quote2ts/ts_rotate"
 
 export Q_PROJECT_DIR="$(pwd)"
 cd $Q_PROJECT_DIR
-CREDENTIALS_FILE="$Q_PROJECT_DIR/creds.cfg"
+CREDENTIALS_FILE="creds.cfg"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
@@ -48,9 +46,9 @@ function GetCredentials {
     else
         echo "Cannot find credentials file - $CREDENTIALS_FILE. Creating one."
         touch $CREDENTIALS_FILE 
-        printf "export FTP_URL=\"ftp_url_without_http://\"\n" >> $CREDENTIALS_FILE
-        printf "export FTP_USER=\"ftp_username\"\n" >> $CREDENTIALS_FILE
-        printf "export FTP_PASSWORD=\"ftp_password\"\n" >> $CREDENTIALS_FILE
+        printf "export SOURCE_URL=\"ftp_url_without_http://\"\n" >> $CREDENTIALS_FILE
+        printf "#export FTP_USER=\"ftp_username\"\n" >> $CREDENTIALS_FILE
+        printf "#export FTP_PASSWORD=\"ftp_password\"\n" >> $CREDENTIALS_FILE
 
         printf "export SQUERY_URL=\"ip_or_domain_address_of_the_server\"\n" >> $CREDENTIALS_FILE
         printf "export SQUERY_PORT=\"squery_port_obviosly)\"\n" >> $CREDENTIALS_FILE
@@ -61,7 +59,7 @@ function GetCredentials {
 }
 
 function GetQuote {
-    quotes_array=$(curl -l ftp://$FTP_URL/quotes/ --user $FTP_USER:$FTP_PASSWORD | grep "$EXT")
+    quotes_array=$(curl -l http://$SOURCE_URL/generated/ --user $FTP_USER:$FTP_PASSWORD | grep "$EXT")
 }
 
 function QuoteToLogo {
@@ -71,7 +69,7 @@ function QuoteToLogo {
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
         send "use sid=$env(SQUERY_SID)\r\n"
-        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(FTP_URL)/quotes/$env(RDY_IMG)\r\n"
+        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(SOURCE_URL)/generated/$env(RDY_IMG)\r\n"
 		send "quit\r\n"
 		interact
 '
@@ -156,14 +154,15 @@ function VideoChose {
 
 function VideosToLogo {
     echo "Video rotating"
-    if $VIDEO_NAME -z 2> /dev/null; then
+    if $VIDEO_NAME -z ; then
+#    if $VIDEO_NAME -z 2> /dev/null; then
         GetQuote
     fi
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
         send "use sid=$env(SQUERY_SID)\r\n"
-        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(FTP_URL)/videos/$env(VIDEO_NAME).png virtualserver_hostbanner_url=$env(CHOSEN_VIDEO_LINK)\r\n"
+        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(SOURCE_URL)/videos/png/$env(VIDEO_NAME).png virtualserver_hostbanner_url=$env(CHOSEN_VIDEO_LINK)\r\n"
 		send "quit\r\n"
 		interact
 '
@@ -176,7 +175,7 @@ function ProjectNameToLogo {
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
         send "use sid=$env(SQUERY_SID)\r\n"
-        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(FTP_URL)/projects/$env(PROJECT_FILENAME)\r\n"
+        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(SOURCE_URL)/projects/$env(PROJECT_FILENAME)\r\n"
 		send "quit\r\n"
 		interact
 '
@@ -189,7 +188,7 @@ function AdminInfo {
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
         send "use sid=$env(SQUERY_SID)\r\n"
-        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(FTP_URL)/$env(ADMIN_INFO) virtualserver_hostbanner_url=$env(ADMIN_INFO_LINK)\r\n"
+        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(SOURCE_URL)/info/png/$env(ADMIN_INFO) virtualserver_hostbanner_url=$env(ADMIN_INFO_LINK)\r\n"
 		send "quit\r\n"
 		interact
 '
@@ -222,7 +221,7 @@ function TeamSpeakInfo {
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
         send "use sid=$env(SQUERY_SID)\r\n"
-        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(FTP_URL)/info/$env(INFO_NAME).png virtualserver_hostbanner_url=$env(INFO_LINK)\r\n"
+        send "serveredit sid=$env(SQUERY_SID) virtualserver_hostbanner_gfx_url=http://$env(SOURCE_URL)/info/png/$env(INFO_NAME).png virtualserver_hostbanner_url=$env(INFO_LINK)\r\n"
 		send "quit\r\n"
 		interact
 '
@@ -254,8 +253,8 @@ GetCredentials
 while unlim=0
 do
     (( n+=1 ))
-    init > /dev/null 2>&1
-    clear
+    init
+#   init > /dev/null 2>&1
     echo "Quotes shown by this instance [ $n ]"
-    sleep 4
+    sleep 5
 done

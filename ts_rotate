@@ -251,4 +251,11 @@ function init {
 ### START SCRIPT ###
 
 GetCredentials
-init > /dev/null
+while unlim=0
+do
+    (( n+=1 ))
+    init > /dev/null 2>&1
+    clear
+    echo "Quotes shown by this instance [ $n ]"
+    sleep 4
+done

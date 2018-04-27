@@ -11,6 +11,6 @@ services:
     image: q2ts:dev 
     container_name: quote2ts
     build: quote2ts/.
-    volumes:
-      - ./quote2ts:/quote2ts/
-    entrypoint: /quote2ts/ts_rotate
+#    volumes:
+#      - ./quote2ts:/quote2ts/
+#    entrypoint: /quote2ts/ts_rotate

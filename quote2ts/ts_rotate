@@ -1,14 +1,18 @@
 #!/bin/bash 
 clear
 
-export PROJECT_DIR="$(find . -type d -name 'quote2ts' -exec realpath {} \;)"
-cd $PROJECT_DIR
-CREDENTIALS_FILE="${PROJECT_DIR}/creds.cfg"
+find -type d -name 'quote2ts' -print0 | xargs -0 realpath
+#export PROJECT_DIR="$(find -type d -name 'quote2ts' -exec realpath {} \;)"
+#cd $PROJECT_DIR
+export CREDENTIALS_FILE="$(find -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
 export INFO_LINK="https://github.com/ovitente/quote2ts"
 
+echo " "
+echo " CRED FILE PATH [ $CREDENTIALS_FILE ]"
+echo " "
 TS_MANUAL="https://goo.gl/smxuVW"
 VIDEO_NAME=""
 VIDEOS_LIST="
@@ -45,7 +49,6 @@ function GetCredentials {
         source $CREDENTIALS_FILE
     else
         echo "Cannot find credentials file - $CREDENTIALS_FILE. Creating one."
-        
         touch $CREDENTIALS_FILE 
         if [ -e $CREDENTIALS_FILE ]; then
           printf "Please edit your new $CREDENTIALS_FILE"

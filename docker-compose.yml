@@ -13,4 +13,4 @@ services:
     build: quote2ts/.
     volumes:
       - ./quote2ts:/quote2ts/
-    command: /quote2ts/ts_rotate
+#    command: /quote2ts/ts_rotate

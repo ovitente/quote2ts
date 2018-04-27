@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# * Хорошо бы ввести дебаг режим. Если включен то выводит всё, если нет то нет. Или не нужно, просто вывод отправлять в нул
+# Made by Ivan Kostrubin. 7spawn@gmail.com
+
+source config
+
+if [ ! -d $RDY_DIR ]; then mkdir $RDY_DIR; fi
+cd $RDY_DIR
+
+function delim {
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+}
+
+function generator {
+if [ -z "$1" ]
+  then
+    echo "Аргумент не передан."
+    exit 1
+	else
+		QUOTE=$1
+fi
+CHARS=$(echo -n $QUOTE | wc -m) # Считает колво символов из цитаты
+# Проверка кол-ва символов и указание соответствующего размера шрифта. -ge значит больше или равно, а -le значит меньше или равно.
+if [[ $CHARS -le $L0 ]]; then FONTSIZE=$F0; # Если чарсов больше или равно L1 И меньше или равно L2 - тогда размер шрифта такой то...
+elif [[ $CHARS -ge $L1 && $CHARS -le $L2 ]]; then FONTSIZE=$F2;
+elif [[ $CHARS -ge $L2 && $CHARS -le $L3 ]]; then FONTSIZE=$F2;
+elif [[ $CHARS -ge $L3 && $CHARS -le $L4 ]]; then FONTSIZE=$F3;
+elif [[ $CHARS -ge $L4 && $CHARS -le $L5 ]]; then FONTSIZE=$F4;
+elif [[ $CHARS -ge $L5 && $CHARS -le $L6 ]]; then FONTSIZE=$F5;
+elif [[ $CHARS -ge $L6 ]]; then FONTSIZE=$F6; echo "$(tput setaf 4)"
+fi
+# Разберешься зачем это # echo "$BLB*$NRML Лимит пикселей на строку : $BOLD$L1$NRML";
+#echo "$BLB*$NRML Колво знаков в цитате: $BOLD$CHARS"$NRML
+#echo "$BLB*$NRML Размер шрифта: $BOLD$FONTSIZE"$NRML
+#delim
+SIGNATURE=$(echo -n $QUOTE | sed -e 's/\—\ //g') # Не помню что делает, закомменти и проверь.
+SIGNATURE=$(echo $QUOTE | sed -e 's/.* — //g') # Выводит подпись в отдельный файл
+##echo -e " Сама подпись:\n[ $SIGNATURE ]";delim
+
+QUOTE=$(echo -n $QUOTE | sed -e 's/―/-/g') # Замена тире на минус, фича для шрифта.
+QUOTE=$(echo -n $QUOTE | sed -e 's/ — А.*//g')
+QUOTE=$(echo -n $QUOTE | sed -e 's/ – А.*//g')
+##echo -e " Без подписи\n[ $QUOTE ]";delim
+#QUOTE=$(echo -n $QUOTE | sed 's/ё/е/g') # Заменяет букву Ё на Е. Для шрифта Ижица, в нем Ё криво отображается как и знак тире (минус - норм).
+ 
+##echo "$GRNB*$NRML Конвертирование текста в картинку"
+convert -background none  -fill black -font $FONT -pointsize $FONTSIZE -size $QUOTE_LENGTH -gravity North-West Caption:"$QUOTE" ../$TEXT_IMG
+##echo "$GRNB*$NRML Вывод подпись в файл"
+convert -size $SIGN_LENGTH -background none  -fill black -font $FONT -pointsize $SIGN_FONT_SIZE -gravity West Caption:"$SIGNATURE" ../$SIGN_IMG
+##echo "$GRNB*$NRML Совмещение шаблона и картинки-текста"
+composite -geometry +10+10 ../$TEXT_IMG ../$TMPLT_LOGO ../$LOGO
+##echo "$GRNB*$NRML Добавление подписи"
+composite -geometry +10+111 ../$SIGN_IMG ../$LOGO ../$LOGO
+##echo "$GRNB*$NRML Рисование рамки вокруг"
+convert ../$LOGO -bordercolor black -border 1 ../$LOGO
+
+# === ITERATION === #
+INC="$(($INC+1))" # Инкрементим переменную перед финальным изображением
+#echo -e "$grn_a Выбранная цитата: $BOLD"
+echo -e "$BOLD"
+delim
+echo "[ $INC ] $QUOTE $NRML"
+mv ../"$LOGO" "q${INC}"$EXT
+#echo "$GRNB*$NRML [ $INC ] $QUOTE."
+}
+
+
+#echo "$GRNB*$NRML Удаление старого и переименовыване нового файла" 
+#find -maxdepth 1 -type f -iname '*[0-9].png' | xargs rm -rf;
+
+#sed -i "s/\(INC *= *\).*/\1$INC/" config # Заменяет значение в конфиге на текущее
+
+#if [ $DEBUG = y ]; then
+#				echo "Debug Mode";
+#elif [ $DEBUG = n ]; then
+#				echo "$GRNB*$NRML Удаление $SIGNATURE, $QUOTE_FILE, $SIGN_IMG, $TEXT_IMG"
+#				rm $SIGNATURE;
+#				rm $QUOTE_FILE;
+#				rm $SIGN_IMG;
+#				rm $TEXT_IMG;
+#else
+#				echo "$REDB*$NRML Не могу распознать значение DEBUG."
+#fi
+
+#echo ''
+#bash img2ftp # Скрипт для отправки файла на фтп, с которого берет логотип сам тимспик
+#echo ''
+#echo "$YLWB* Изменение лого в тимспике$NRML"
+#bash img2ts >/dev/null # Скрывет вывод работы скрипта захода в телнет (с данными доступа).
+
+# Мне не понятна эта конструкция и как она работает, а именно передача файла цитат в конце.
+while read p;
+  do
+    generator "$p";
+done < ../$QUOTES_SOURCE
+#mogrify -format jpg *.png

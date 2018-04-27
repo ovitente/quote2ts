@@ -1,0 +1,16 @@
+version: '3'
+services:
+  http-server:
+    container_name: http-server
+    image: danjellz/http-server
+    ports:
+      - "80:8080"
+    volumes:
+      - ./quote2ts/gfx:/public/
+  quote2ts:
+    image: q2ts:dev 
+    container_name: quote2ts
+    build: quote2ts/.
+    volumes:
+      - ./quote2ts:/quote2ts/
+    command: /quote2ts/ts_rotate

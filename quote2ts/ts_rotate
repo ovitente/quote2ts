@@ -5,13 +5,10 @@ if [ -z $PROJECT_DIR ]; then
 	echo "Project dir is empty. Setting up."
   export PROJECT_DIR="./quote2ts"
   cd $(pwd ${PROJECT_DIR})
-  echo "FULL PROJECT_DIR is [ $(pwd $PROJECT_DIR) ]"
-echo " "
-echo " PROJECT DIR [ $PROJECT_DIR ]"
-echo " "
 fi
 
-export CREDENTIALS_FILE="$(find -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
+#export CREDENTIALS_FILE="$(find -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
+export CREDENTIALS_FILE="$(find $(echo $PROJECT_DIR) -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
@@ -262,16 +259,16 @@ function init {
         1)
             GetQuotesList
             QuoteToLogo > /dev/null
-            echo -e "\n = Regular quote "
+            echo -e "\n=== Regular quote "
             ;;
         2)
             VideoChose
             VideosToLogo > /dev/null
-            echo -e "\n = Videos "
+            echo -e "\n=== Videos "
             ;;
         3)
             TeamSpeakInfo > /dev/null
-            echo -e "\n = INFO "
+            echo -e "\n=== INFO "
             ;;
     esac
 }
@@ -284,6 +281,6 @@ do
   (( n+=1 ))
   init
   init > /dev/null
-  echo "# $n"
+  echo "# $n "
   sleep 5
 done

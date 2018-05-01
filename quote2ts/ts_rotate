@@ -7,7 +7,6 @@ if [ -z $PROJECT_DIR ]; then
   cd $(pwd ${PROJECT_DIR})
 fi
 
-#export CREDENTIALS_FILE="$(find -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
 export CREDENTIALS_FILE="$(find $(echo $PROJECT_DIR) -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
@@ -87,7 +86,7 @@ function GetQuotesList {
       echo ""
     fi
   fi
-#    quotes_array=$(curl -l http://$SOURCE_URL/generated/ --user $FTP_USER:$FTP_PASSWORD | grep "$EXT")
+#    quotes_array=$(curl -l http://$SOURCE_URL/generated/ --user $FTP_USER:$FTP_PASSWORD | grep "$EXT") # For some case
 }
 
 function QuoteToLogo {
@@ -171,16 +170,13 @@ function VideoChose {
         *)
             GetVideoName 
             VideoChose
-#            CHOSEN_VIDEO_LINK="https://allatra.tv/"
             ;;
     esac
     
-#    echo "* $VIDEO_NAME - $CHOSEN_VIDEO_LINK"
 }
 
 function VideosToLogo {
-    if [ -z $VIDEO_NAME ]; then
-#    if $VIDEO_NAME -z 2> /dev/null; then
+    if [ -z $VIDEO_NAME ] 2> /dev/null; then
         GetQuotesList
     fi
     expect -c '

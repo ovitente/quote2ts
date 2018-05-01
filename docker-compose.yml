@@ -8,7 +8,9 @@ services:
     volumes:
       - ./quote2ts/gfx:/public/
   quote2ts:
+    build: ./quote2ts
+    image: quote2ts
+    container_name: quote2ts
     ports:
     - "10022:10022"
-    container_name: quote2ts
-    build: quote2ts/.
+    entrypoint: /quote2ts/ts_rotate

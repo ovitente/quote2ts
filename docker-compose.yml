@@ -8,7 +8,6 @@ services:
     volumes:
       - ./quote2ts/gfx:/public/
   quote2ts:
-#    image: q2ts:dev 
     ports:
     - "10022:10022"
     container_name: quote2ts

@@ -1,18 +1,28 @@
 #!/bin/bash 
 clear
 
-find -type d -name 'quote2ts' -print0 | xargs -0 realpath
-#export PROJECT_DIR="$(find -type d -name 'quote2ts' -exec realpath {} \;)"
-#cd $PROJECT_DIR
+if [ -z $PROJECT_DIR ]; then
+	echo "Project dir is empty. Setting up."
+  export PROJECT_DIR="./quote2ts"
+  cd $(pwd ${PROJECT_DIR})
+  echo "FULL PROJECT_DIR is [ $(pwd $PROJECT_DIR) ]"
+echo " "
+echo " PROJECT DIR [ $PROJECT_DIR ]"
+echo " "
+fi
+
 export CREDENTIALS_FILE="$(find -type f -name 'creds.cfg' -print0 | xargs -0 realpath)"
 export VIDEO_NAME=""
 export CHOSEN_VIDEO_LINK=""
 export INFO_NAME=""
 export INFO_LINK="https://github.com/ovitente/quote2ts"
-
+echo "================================================="
+echo " "
+echo " PROJECT DIR [ $PROJECT_DIR ]"
 echo " "
 echo " CRED FILE PATH [ $CREDENTIALS_FILE ]"
 echo " "
+echo "================================================="
 TS_MANUAL="https://goo.gl/smxuVW"
 VIDEO_NAME=""
 VIDEOS_LIST="
@@ -43,8 +53,9 @@ channel_deletion
 admin-info
 znaki"
 
-
 function GetCredentials {
+  echo " "
+  echo "# GetCredentials"
     if [ -e $CREDENTIALS_FILE ]; then
         source $CREDENTIALS_FILE
     else
@@ -69,13 +80,20 @@ function GetCredentials {
     fi
 }
 
-function GetQuote {
-    quotes_array=$(ln ./gfx/generated)
+function GetQuotesList {
+  if [ -d ${PROJECT_DIR}/gfx/generated ]; then
+    quotes_array=$(ls ${PROJECT_DIR}/gfx/generated)
+    status=$?
+    if [ $status -ne 0 ]; then
+      echo ""
+      echo "There is no right path"
+      echo ""
+    fi
+  fi
 #    quotes_array=$(curl -l http://$SOURCE_URL/generated/ --user $FTP_USER:$FTP_PASSWORD | grep "$EXT")
 }
 
 function QuoteToLogo {
-    echo "Replacing quote in TeamSpeak logo."
     export RDY_IMG="$(echo "$quotes_array" | sort -R | head -n 1)"
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
@@ -92,7 +110,6 @@ function GetVideoName {
 }
 
 function VideoChose {
-    echo "Chosing video from list."
     GetVideoName
 
     case $VIDEO_NAME in
@@ -165,10 +182,9 @@ function VideoChose {
 }
 
 function VideosToLogo {
-    echo "Video rotating"
-    if $VIDEO_NAME -z ; then
+    if [ -z $VIDEO_NAME ]; then
 #    if $VIDEO_NAME -z 2> /dev/null; then
-        GetQuote
+        GetQuotesList
     fi
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
@@ -181,8 +197,6 @@ function VideosToLogo {
   }
 
 function ProjectNameToLogo {
-    echo "Showing project's logo and changing link."
-
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
@@ -195,7 +209,6 @@ function ProjectNameToLogo {
   }
 
 function AdminInfo {
-    echo "Show info about admin."
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
         send "login $env(SQUERY_USER) $env(SQUERY_PASSWORD)\r\n"
@@ -207,7 +220,8 @@ function AdminInfo {
 }
 
 function TeamSpeakInfo {
-    echo "Shows some ts notices."
+    echo " "
+    echo "# TeamSpeakInfo"
     export ADMIN_INFO="admin-info.png"
     export ADMIN_INFO_LINK="https://t.me/ivan_kostrubin"
     export INFO_NAME="$(echo "$INFO_LIST" | sort -R | head -n 1)"
@@ -246,15 +260,18 @@ function init {
     rand="$(( $min + RANDOM % $max ))"
     case $rand in
         1)
-            GetQuote
-            QuoteToLogo
+            GetQuotesList
+            QuoteToLogo > /dev/null
+            echo -e "\n = Regular quote "
             ;;
         2)
             VideoChose
-            VideosToLogo
+            VideosToLogo > /dev/null
+            echo -e "\n = Videos "
             ;;
         3)
-            TeamSpeakInfo
+            TeamSpeakInfo > /dev/null
+            echo -e "\n = INFO "
             ;;
     esac
 }
@@ -264,9 +281,9 @@ function init {
 GetCredentials
 while unlim=0
 do
-    (( n+=1 ))
-    init
-#   init > /dev/null 2>&1
-    echo "Quotes shown by this instance [ $n ]"
-    sleep 5
+  (( n+=1 ))
+  init
+  init > /dev/null
+  echo "# $n"
+  sleep 5
 done

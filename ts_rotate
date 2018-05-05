@@ -39,7 +39,7 @@ INFO_LIST="gitted
 clickable
 channel_deletion
 admin-info
-znaki"
+"
 
 
 function GetCredentials {
@@ -214,9 +214,6 @@ function TeamSpeakInfo {
         admin-info)
             INFO_LINK=$ADMIN_INFO_LINK
             ;;
-        znaki)
-            INFO_LINK="https://youtu.be/gN2CAK5k9C4"
-            ;;    
     esac
     expect -c '
         spawn telnet $env(SQUERY_URL) $env(SQUERY_PORT)
